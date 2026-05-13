@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -43,10 +44,11 @@ class Eleicao(models.Model):
         return self.titulo
 
     def clean(self):
-        if self.data_hora_fim <= self.data_hora_inicio:
-            return {
-                'horarios_inválidos': 'horários fora do range.'
-            }
+        if self.data_hora_fim and self.data_hora_inicio:
+            if self.data_hora_fim <= self.data_hora_inicio:
+                return {
+                    'horarios_inválidos': 'horários fora do range.'
+                }
 
 
 class Candidato(models.Model):
@@ -119,3 +121,4 @@ class Voto(models.Model):
         #     }
 
 
+ 
